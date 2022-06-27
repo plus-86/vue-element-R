@@ -1,77 +1,91 @@
 <template>
   <div class="Aside-Menu">
     <el-menu
-      :active-text-color="textThemeColor[textNum].color"
-      default-active="1-4-1"
+      default-active="2"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
       :collapse="isCollapse"
+      :active-text-color="textThemeColor[textNum].color"
     >
-      <el-submenu
-        :index="item.index"
-        v-for="(item, index) in menuData"
-        :key="index"
-      >
-        <template slot="title">
-          <i :class="item.icon"></i>
-          <span slot="title">{{ item.name }}</span>
-        </template>
-        <el-submenu
-          v-for="(child, index) in item.children"
-          :key="index"
-          :index="child.index"
-        >
-          <i :class="child.icon"></i>
-          <span slot="title">{{ child.name }}</span>
-          <el-submenu
-            v-for="(gchild, index) in child.children"
-            :key="index"
-            :index="gchild.index"
-          >
-            <i :class="gchild.icon"></i>
-            <span slot="title">{{ gchild.name }}</span>
-            <el-submenu
-              v-for="(ggchild, index) in gchild.children"
-              :key="index"
-              :index="ggchild.index"
-            >
-              <i :class="ggchild.icon"></i>
-              <span slot="title">{{ ggchild.name }}</span>
-            </el-submenu>
+      <template v-for="item in menuData">
+        <!-- 有子路由 -->
+        <template v-if="item.hasChildren">
+          <el-submenu :index="item.index" :key="item.index">
+            <template slot="title">
+              <i :class="item.icon"></i>
+              <span>{{ item.name }}</span>
+            </template>
+            <template v-for="child in item.children">
+              <!-- 有子路由 -->
+              <template v-if="child.hasChildren">
+                <el-submenu :index="child.index" :key="child.index">
+                  <template slot="title">
+                    <i :class="child.icon"></i>
+                    <span>{{ child.name }}</span>
+                  </template>
+                  <template v-for="gchild in child.children">
+                    <!-- 有子路由 -->
+                    <template v-if="gchild.hasChildren">
+                      <el-submenu :index="gchild.index" :key="gchild.index">
+                        <template slot="title">
+                          <i :class="gchild.icon"></i>
+                          <span>{{ gchild.name }}</span>
+                        </template>
+                        <template v-for="ggchild in gchild.children">
+                          <!-- 有子路由 -->
+                          <template v-if="ggchild.hasChildren">
+                            <el-submenu
+                              :index="ggchild.index"
+                              :key="ggchild.index"
+                            >
+                              <template slot="title">
+                                <i :class="ggchild.icon"></i>
+                                <span>{{ ggchild.name }}</span>
+                              </template>
+                            </el-submenu>
+                          </template>
+                          <!-- 没子路由 -->
+                          <template v-else>
+                            <el-menu-item
+                              :index="ggchild.index"
+                              :key="ggchild.index"
+                            >
+                              <i :class="ggchild.icon"></i>
+                              <span slot="title">{{ ggchild.name }}</span>
+                            </el-menu-item>
+                          </template>
+                        </template>
+                      </el-submenu>
+                    </template>
+                    <!-- 没子路由 -->
+                    <template v-else>
+                      <el-menu-item :index="gchild.index" :key="gchild.index">
+                        <i :class="gchild.icon"></i>
+                        <span slot="title">{{ gchild.name }}</span>
+                      </el-menu-item>
+                    </template>
+                  </template>
+                </el-submenu>
+              </template>
+              <!-- 没子路由 -->
+              <template v-else>
+                <el-menu-item :index="child.index" :key="child.index">
+                  <i :class="child.icon"></i>
+                  <span slot="title">{{ child.name }}</span>
+                </el-menu-item>
+              </template>
+            </template>
           </el-submenu>
-        </el-submenu>
-      </el-submenu>
-      <!-- <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">导航一</span>
         </template>
-        <el-menu-item-group>
-          <span slot="title">分组一</span>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <span slot="title">选项4</span>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
-      </el-menu-item> -->
+        <!-- 没子路由 -->
+        <template v-else>
+          <el-menu-item :index="item.index" :key="item.index">
+            <i :class="item.icon"></i>
+            <span slot="title">{{ item.name }}</span>
+          </el-menu-item>
+        </template>
+      </template>
     </el-menu>
   </div>
 </template>
@@ -85,16 +99,19 @@ export default {
         {
           index: '1',
           name: '首页',
-          icon: 'el-icon-menu'
+          icon: 'el-icon-menu',
+          hasChildren: false
         },
         {
           index: '2',
           name: '路由嵌套',
           icon: 'el-icon-document-copy',
+          hasChildren: true,
           children: [
             {
               index: '2-1',
               name: '菜单1',
+              hasChildren: true,
               children: [
                 {
                   index: '2-1-1',
@@ -103,6 +120,7 @@ export default {
                 {
                   index: '2-1-2',
                   name: '菜单1-2',
+                  hasChildren: true,
                   children: [
                     {
                       index: '2-1-2-1',
@@ -118,7 +136,52 @@ export default {
             },
             {
               index: '2-2',
-              name: '菜单2'
+              name: '菜单2',
+              hasChildren: false
+            }
+          ]
+        },
+        {
+          index: '3',
+          name: '组件',
+          icon: 'el-icon-cpu',
+          hasChildren: true,
+          children: [
+            {
+              index: '3-1',
+              name: '富文本编辑器'
+            },
+            {
+              index: '3-2',
+              name: 'Markdown'
+            },
+            {
+              index: '3-3',
+              name: 'JSON 编辑器'
+            },
+            {
+              index: '3-4',
+              name: '小组件'
+            },
+            {
+              index: '3-5',
+              name: 'Count To'
+            },
+            {
+              index: '3-6',
+              name: '头像上传'
+            },
+            {
+              index: '3-7',
+              name: '拖拽'
+            },
+            {
+              index: '3-8',
+              name: 'Splitpane'
+            },
+            {
+              index: '3-9',
+              name: '返回顶部'
             }
           ]
         }
