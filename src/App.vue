@@ -6,7 +6,9 @@
     <section class="body">
       <div class="Nav-Bar"><NavBar></NavBar></div>
       <div class="Tag-Bar"><TagBar></TagBar></div>
-      <router-view />
+      <div class="router">
+        <router-view />
+      </div>
     </section>
     <div v-show="isOpen" class="Drawer">
       <Drawer></Drawer>
@@ -37,6 +39,11 @@ export default {
   height: 100vh;
   .body {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    .router {
+      flex: 1;
+    }
   }
 }
 .Drawer {
