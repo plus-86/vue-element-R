@@ -4,6 +4,7 @@ import LeftMenu from './left-menu'
 import DrawerMenu from './drawer-menu'
 import ThemeColor from './theme-color'
 import SearchBox from './search-box'
+import TagBar from './tag-bar'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     LeftMenu,
     DrawerMenu,
     ThemeColor,
-    SearchBox
+    SearchBox,
+    TagBar
   }
 })

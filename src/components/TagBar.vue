@@ -1,17 +1,57 @@
 <template>
   <div class="Tag-Bar">
     <ul>
-      <li v-for="(item, index) in 6" :key="index">
+      <li
+        @click="switchTag(item)"
+        v-for="(item, index) in tagsArray"
+        :style="
+          $route.path === item.path
+            ? {
+                background: textThemeColor[textNum].color,
+                'border-color': textThemeColor[textNum].color,
+                color: '#fff'
+              }
+            : ''
+        "
+        :key="index"
+      >
         <i class="el-icon-location"></i>
-        <span>首页</span>
-        <i class="el-icon-close"></i>
+        <span>{{ item.tagName }}</span>
+        <i
+          v-show="item.path === '/dashboard' ? false : true"
+          @click.stop="removeTag({ path: item.path })"
+          class="el-icon-close"
+        ></i>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapState, mapMutations } from 'vuex'
+
+export default {
+  created() {
+    if (JSON.parse(sessionStorage.getItem('router'))) {
+      this.addTag(JSON.parse(sessionStorage.getItem('router')))
+    }
+  },
+  methods: {
+    ...mapMutations('TagBar', ['removeTag', 'addTag']),
+    switchTag(item) {
+      this.$router.push(item.path)
+      if (item.path === '/dashboard') return sessionStorage.clear()
+      sessionStorage.setItem(
+        'router',
+        JSON.stringify({ tagName: item.tagName, path: item.path })
+      )
+    }
+  },
+  computed: {
+    ...mapState('TagBar', ['tagsArray']),
+    ...mapState('ThemeColor', ['textThemeColor', 'textNum'])
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -25,9 +65,17 @@ export default {}
     margin-left: 15px;
     height: 40px;
     li {
-      background: #42b983;
+      background: #fff;
+      color: #495060;
+      border: 1px solid #d8dce5;
       padding: 4px 8px;
       cursor: pointer;
+      transition: 0.5s;
+      &.active {
+        background: #36b368;
+        border-color: #36b368;
+        color: #fff;
+      }
       i {
         font-size: 12px;
       }

@@ -1,5 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import nestedRouter from './modules/nested'
+
+// 在当前页面点击该页面的路由时会有报错(官方bug)，在vuerouter注册之前写入以下代码
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function (location) {
+  return originalPush.call(this, location).catch((err) => {})
+}
 
 Vue.use(VueRouter)
 
@@ -13,44 +20,11 @@ const routes = [
     name: 'dashboard',
     component: () => import('@/views/Dashboard.vue')
   },
-  {
-    path: '/nested',
-    redirect: '/nested/menu1/menu1-1'
-  },
-  {
-    path: '/nested/menu1',
-    redirect: '/nested/menu1/menu1-1'
-  },
-  {
-    path: '/nested/menu1/menu1-1',
-    name: 'menu1-1',
-    component: () => import('@/views/NestedMenu/Menu1/Menu1-1/Menu1-1.vue')
-  },
-  {
-    path: '/nested/menu1/menu1-2',
-    redirect: '/nested/menu1/menu1-2/menu1-2-1'
-  },
-  {
-    path: '/nested/menu1/menu1-2/menu1-2-1',
-    name: 'menu1-2-1',
-    component: () =>
-      import('@/views/NestedMenu/Menu1/Menu1-2/Menu1-2-1/Menu1-2-1.vue')
-  },
-  {
-    path: '/nested/menu1/menu1-2/menu1-2-2',
-    name: 'menu1-2-2',
-    component: () =>
-      import('@/views/NestedMenu/Menu1/Menu1-2/Menu1-2-2/Menu1-2-2.vue')
-  },
-  {
-    path: '/nested/menu2',
-    name: 'menu2',
-    component: () => import('@/views/NestedMenu/Menu2/Menu2.vue')
-  }
+  ...nestedRouter
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })
