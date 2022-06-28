@@ -180,7 +180,9 @@ export default {
           children: [
             {
               index: '3-1',
-              tagName: '富文本编辑器'
+              tagName: '富文本编辑器',
+              hasChildren: false,
+              path: '/components/richtext'
             },
             {
               index: '3-2',

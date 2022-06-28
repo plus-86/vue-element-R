@@ -1,7 +1,9 @@
 const componentsRouter = [
   {
-    path: '/richtext',
+    path: '/components/richtext',
     name: 'richtext',
-    component: () => import('')
+    component: () => import('@/views/Components/RichText.vue')
   }
 ]
+
+export default componentsRouter

@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <div class="Rich-Tex">RickText</div>
+</template>
 
 <script>
 export default {}
