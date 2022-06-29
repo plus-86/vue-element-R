@@ -11,9 +11,18 @@ export default {
   },
   mutations: {
     addTag(state, payload) {
-      // 为被点击的侧边菜单添加标签，如果标签已存在，则什么也不做
-      if (state.tagsArray.some((v) => v.path === payload.path)) return
-      state.tagsArray.push(payload)
+      // 是否可以跳转
+      if (payload.path) {
+        // 为被点击的侧边菜单添加标签，如果标签已存在，则什么也不做
+        if (state.tagsArray.some((v) => v.path === payload.path)) return
+        state.tagsArray.push(payload)
+        router.push(payload.path)
+        if (payload.path === '/dashboard') return sessionStorage.clear()
+        sessionStorage.setItem(
+          'router',
+          JSON.stringify({ tagName: payload.tagName, path: payload.path })
+        )
+      }
     },
     removeTag(state, payload) {
       // 用页面传进来的路径，寻找该标签在数组中的位置，移除标签并跳转至最后一个标签

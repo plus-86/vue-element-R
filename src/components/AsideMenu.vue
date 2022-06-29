@@ -11,7 +11,7 @@
         <template v-if="item.hasChildren">
           <!-- @click在el-submenu使用无效，使用@click.native即可 -->
           <el-submenu
-            @click.native="navigatorTo(item)"
+            @click.native="addTag(item)"
             :index="item.index"
             :key="item.index"
           >
@@ -23,7 +23,7 @@
               <!-- 有子路由 -->
               <template v-if="child.hasChildren">
                 <el-submenu
-                  @click.native="navigatorTo(child)"
+                  @click.native="addTag(child)"
                   :index="child.index"
                   :key="child.index"
                 >
@@ -35,7 +35,7 @@
                     <!-- 有子路由 -->
                     <template v-if="gchild.hasChildren">
                       <el-submenu
-                        @click.native="navigatorTo(gchild)"
+                        @click.native="addTag(gchild)"
                         :index="gchild.index"
                         :key="gchild.index"
                       >
@@ -47,7 +47,7 @@
                           <!-- 有子路由 -->
                           <template v-if="ggchild.hasChildren">
                             <el-submenu
-                              @click.native="navigatorTo(ggchild)"
+                              @click.native="addTag(ggchild)"
                               :index="ggchild.index"
                               :key="ggchild.index"
                             >
@@ -60,7 +60,7 @@
                           <!-- 没子路由 -->
                           <template v-else>
                             <el-menu-item
-                              @click.native="navigatorTo(ggchild)"
+                              @click.native="addTag(ggchild)"
                               :index="ggchild.index"
                               :key="ggchild.index"
                             >
@@ -74,7 +74,7 @@
                     <!-- 没子路由 -->
                     <template v-else>
                       <el-menu-item
-                        @click.native="navigatorTo(gchild)"
+                        @click.native="addTag(gchild)"
                         :index="gchild.index"
                         :key="gchild.index"
                       >
@@ -88,7 +88,7 @@
               <!-- 没子路由 -->
               <template v-else>
                 <el-menu-item
-                  @click.native="navigatorTo(child)"
+                  @click.native="addTag(child)"
                   :index="child.index"
                   :key="child.index"
                 >
@@ -102,7 +102,7 @@
         <!-- 没子路由 -->
         <template v-else>
           <el-menu-item
-            @click.native="navigatorTo(item)"
+            @click.native="addTag(item)"
             :index="item.index"
             :key="item.index"
           >
@@ -227,22 +227,7 @@ export default {
     ...mapState('TagBar', ['tagsArray'])
   },
   methods: {
-    ...mapMutations('TagBar', ['addTag']),
-    navigatorTo(item) {
-      // 是否可以跳转
-      if (item.path) {
-        this.addTag({
-          tagName: item.tagName,
-          path: item.path
-        })
-        this.$router.push(item.path)
-        if (item.path === '/dashboard') return sessionStorage.clear()
-        sessionStorage.setItem(
-          'router',
-          JSON.stringify({ tagName: item.tagName, path: item.path })
-        )
-      }
-    }
+    ...mapMutations('TagBar', ['addTag'])
   }
 }
 </script>
