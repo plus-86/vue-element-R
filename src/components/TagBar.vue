@@ -37,15 +37,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('TagBar', ['removeTag', 'addTag']),
-    switchTag(item) {
-      this.$router.push(item.path)
-      if (item.path === '/dashboard') return sessionStorage.clear()
-      sessionStorage.setItem(
-        'router',
-        JSON.stringify({ tagName: item.tagName, path: item.path })
-      )
-    }
+    ...mapMutations('TagBar', ['removeTag', 'addTag', 'switchTag'])
   },
   computed: {
     ...mapState('TagBar', ['tagsArray']),
