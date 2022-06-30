@@ -13,6 +13,7 @@ export default {
   mutations: {
     chooseTextThemeColor(state, payload) {
       state.textNum = payload
+      localStorage.setItem('color', payload)
     }
   }
 }

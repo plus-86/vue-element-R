@@ -20,8 +20,15 @@ import AsideMenu from '@/components/AsideMenu.vue'
 import NavBar from '@/components/NavBar.vue'
 import Drawer from '@/components/NavBar/Drawer.vue'
 import TagBar from '@/components/TagBar.vue'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
+  created() {
+    if (localStorage.getItem('color'))
+      this.chooseTextThemeColor(localStorage.getItem('color'))
+  },
+  methods: {
+    ...mapMutations('ThemeColor', ['chooseTextThemeColor'])
+  },
   computed: {
     ...mapState('DrawerMenu', ['isOpen'])
   },
