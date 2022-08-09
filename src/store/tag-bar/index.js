@@ -14,12 +14,14 @@ export default {
       // 当路由为空时，不进行任何操作
       if (!payload.path) return
       // 单独为首页跳转做一个条件
-      if (payload.path === '/dashboard') router.push(payload.path)
+      if (payload.path === '/dashboard') {
+        router.push(payload.path)
+        sessionStorage.clear()
+      }
       // 为被点击的侧边菜单添加标签，如果标签已存在，则什么也不做
       if (state.tagsArray.some((v) => v.path === payload.path)) return
       state.tagsArray.push(payload)
       router.push(payload.path)
-      if (payload.path === '/dashboard') return sessionStorage.clear()
       sessionStorage.setItem(
         'router',
         JSON.stringify({ tagName: payload.tagName, path: payload.path })

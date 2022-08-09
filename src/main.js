@@ -5,9 +5,13 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+import MyForm from '@/components/FormAndTable/form.vue'
+import MyTable from '@/components/FormAndTable/table.vue'
 import '@/assets/style/global-style.scss'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.component('MyForm', MyForm)
+Vue.component('MyTable', MyTable)
 new Vue({
   router,
   store,

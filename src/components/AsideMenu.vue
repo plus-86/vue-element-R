@@ -180,9 +180,9 @@ export default {
           children: [
             {
               index: '3-1',
-              tagName: '富文本编辑器',
+              tagName: '表单和表格',
               hasChildren: false,
-              path: '/components/richtext'
+              path: '/components/formandtable'
             },
             {
               index: '3-2',
@@ -215,6 +215,12 @@ export default {
             {
               index: '3-9',
               tagName: '返回顶部'
+            },
+            {
+              index: '3-10',
+              tagName: '富文本编辑器',
+              hasChildren: false,
+              path: '/components/richtext'
             }
           ]
         }

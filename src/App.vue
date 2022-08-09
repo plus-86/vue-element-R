@@ -24,7 +24,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   created() {
     if (localStorage.getItem('color'))
-      this.chooseTextThemeColor(localStorage.getItem('color'))
+      this.chooseTextThemeColor(parseInt(localStorage.getItem('color')))
   },
   methods: {
     ...mapMutations('ThemeColor', ['chooseTextThemeColor'])

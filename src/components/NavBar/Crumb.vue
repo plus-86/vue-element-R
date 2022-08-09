@@ -1,9 +1,21 @@
 <template>
-  <div class="Crumb">首页</div>
+  <div class="Crumb">
+    <span
+      v-show="$route.path === item.path"
+      v-for="(item, index) in tagsArray"
+      :key="index"
+      >{{ item.tagName }}</span
+    >
+  </div>
 </template>
 
 <script>
-export default {}
+import { mapState } from 'vuex'
+export default {
+  computed: {
+    ...mapState('TagBar', ['tagsArray'])
+  }
+}
 </script>
 
 <style lang="scss" scoped>
